@@ -3,8 +3,8 @@ const { simpleParser } = require('mailparser');
 
 // IMAP configuration
 const imapConfig = {
-  user: 'netplikwxstore@gmail.com',
-  password: 'smdk vphw sxzm ubjc',
+  user: '',
+  password: '',
   host: 'imap.gmail.com',
   port: 993,
   tls: true,
