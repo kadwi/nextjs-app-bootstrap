@@ -1,0 +1,51 @@
+import { NextResponse } from "next/server";
+
+interface EmailData {
+  from?: string;
+  subject?: string;
+  date?: string;
+  body?: string;
+  to?: string;
+}
+
+export async function GET(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const email = searchParams.get('email');
+
+    if (!email) {
+      return NextResponse.json(
+        { error: "Email parameter is required" },
+        { status: 400 }
+      );
+    }
+
+    const mockEmails: EmailData[] = [
+      {
+        from: "system@temporary-mail.net",
+        to: email,
+        subject: "Welcome to Your Temporary Email",
+        date: new Date().toLocaleString(),
+        body: `Welcome to your temporary email address: ${email}\n\nYou can use this address to receive emails for testing purposes. Any emails sent to this address will appear here automatically.\n\nNote: This is a development version using mock data.`
+      },
+      {
+        from: "notifications@temporary-mail.net",
+        to: email,
+        subject: "Email Service Information",
+        date: new Date(Date.now() - 5 * 60000).toLocaleString(),
+        body: "Your temporary email address is active and ready to receive messages. This is a mock response for development purposes."
+      }
+    ];
+
+    return NextResponse.json({ 
+      emails: mockEmails,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('API Error:', error);
+    return NextResponse.json(
+      { error: "Failed to fetch emails" },
+      { status: 500 }
+    );
+  }
+}
